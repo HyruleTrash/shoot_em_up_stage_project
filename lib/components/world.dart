@@ -78,7 +78,7 @@ class GameWorld extends World {
     // re setup Player
     player.active = true;
     player.health = 3;
-    playerHealthUI.text = "Hp: ${player.health}";
+    playerHealthUI.text = "HP: ${player.health}";
     player.position.y =
         640 - 32 * 2; // bottom of the screen minos the player size twice
     player.add(OpacityEffect.to(1.0, EffectController(duration: 0.001)));
