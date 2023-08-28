@@ -27,7 +27,17 @@ class Bullet extends PositionComponent with HasGameRef<ShootEmUpStageProject> {
   void update(double dt) {
     if (active) {
       _checkCollisions();
-      position.y += moveSpeed * dt;
+
+      //space transformation (movement)
+      Matrix2 bulletTransform =
+          Matrix2(position.x, scale.x, position.y, scale.y);
+      Matrix2 moveByMatrix = Matrix2(0, 0, moveSpeed * dt, 0);
+      bulletTransform += moveByMatrix;
+
+      //set matrix back to component values
+      position = bulletTransform.row0;
+      scale = bulletTransform.row1;
+
       active = !(position.y < 0 || position.y + height > 640);
       super.update(dt);
     } else {
