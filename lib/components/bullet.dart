@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:math';
 
+import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
 import 'package:shoot_em_up_stage_project/components/enemy.dart';
 import 'package:shoot_em_up_stage_project/components/world.dart';
@@ -20,14 +21,16 @@ class Bullet extends PositionComponent with HasGameRef<ShootEmUpStageProject> {
     spriteComponent.sprite = Sprite(game.images.fromCache('Bullet.png'));
     spriteComponent.size = Vector2(32, 32);
     add(spriteComponent);
+    add(RectangleHitbox(
+        size: Vector2(7, 32),
+        position: Vector2(16, 16),
+        anchor: Anchor.center));
     await super.onLoad();
   }
 
   @override
   void update(double dt) {
     if (active) {
-      _checkCollisions();
-
       //space transformation (movement)
       Matrix2 bulletTransform =
           Matrix2(position.x, scale.x, position.y, scale.y);
@@ -42,21 +45,6 @@ class Bullet extends PositionComponent with HasGameRef<ShootEmUpStageProject> {
       super.update(dt);
     } else {
       spriteComponent.removeFromParent();
-    }
-  }
-
-  void _checkCollisions() {
-    for (var object in game.firstChild<GameWorld>()!.children) {
-      if (object.runtimeType == Enemy) {
-        Enemy enemy = object as Enemy;
-        Vector2 magnitude = enemy.position - position;
-        if (enemy.active == true &&
-            sqrt(pow(magnitude.x, 2) + pow(magnitude.y, 2)) < 30) {
-          spriteComponent.removeFromParent();
-          enemy.hurt(damage);
-          removeFromParent();
-        }
-      }
     }
   }
 }

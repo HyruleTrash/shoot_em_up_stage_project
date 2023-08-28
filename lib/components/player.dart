@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:math';
 
+import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
 import 'package:flame/effects.dart';
 import 'package:flame_audio/flame_audio.dart';
@@ -34,6 +35,8 @@ class Player extends SpriteAnimationGroupComponent
   bool waitingForNextShot = false;
   double bulletSpeed = 350;
 
+  final RectangleHitbox hitBox = RectangleHitbox(
+      size: Vector2(32, 32), position: Vector2(0, 0), anchor: Anchor.center);
   int health = 3;
   bool active = true;
 
@@ -43,6 +46,9 @@ class Player extends SpriteAnimationGroupComponent
 
     // set health ui
     _setHealthUi();
+
+    // add hitbox
+    add(hitBox);
 
     return super.onLoad();
   }
@@ -59,7 +65,6 @@ class Player extends SpriteAnimationGroupComponent
       position.x += velocity.x * dt;
 
       _checkWallCollision();
-      _checkCollisions();
 
       super.update(dt);
     }
@@ -161,45 +166,34 @@ class Player extends SpriteAnimationGroupComponent
     }
   }
 
-  void _checkCollisions() {
-    for (var object in game.firstChild<GameWorld>()!.children) {
-      if (object.runtimeType == Enemy) {
-        Enemy enemy = object as Enemy;
-        Vector2 magnitude = enemy.position - position;
-        if (enemy.active == true &&
-            sqrt(pow(magnitude.x, 2) + pow(magnitude.y, 2)) < 30) {
-          // damage
-          health--;
-          enemy.damageTaken = enemy.maxDamage;
-          enemy.hurt(1);
+  void hurt() {
+    // damage
+    health--;
 
-          // damage flinch
-          add(ColorEffect(
-            Color.fromARGB(255, 255, 255, 255),
-            const Offset(0.0, 0.8),
-            EffectController(duration: 0.1, reverseDuration: 0.1),
-          ));
+    // damage flinch
+    add(ColorEffect(
+      Color.fromARGB(255, 255, 255, 255),
+      const Offset(0.0, 0.8),
+      EffectController(duration: 0.1, reverseDuration: 0.1),
+    ));
 
-          // update health Ui
-          _setHealthUi();
+    // update health Ui
+    _setHealthUi();
 
-          //hurt noise
-          FlameAudio.play("Hit_Hurt.wav", volume: 0.6);
+    //hurt noise
+    FlameAudio.play("Hit_Hurt.wav", volume: 0.6);
 
-          //Lose
-          if (health <= 0) {
-            final fixedX = scale.x < 0 ? width / 2 : -width / 2;
-            add(ExplosionParticle(Vector2(fixedX, 0)));
+    //Lose
+    if (health <= 0) {
+      final fixedX = scale.x < 0 ? width / 2 : -width / 2;
+      add(ExplosionParticle(Vector2(fixedX, 0)));
 
-            //death noise
-            FlameAudio.play("Explosion4.wav", volume: 0.6);
+      //death noise
+      FlameAudio.play("Explosion4.wav", volume: 0.6);
 
-            stopPlayer();
-            GameWorld? parentWorld = parent as GameWorld?;
-            parentWorld?.endGameMessage.text = "You Lose (press Space)";
-          }
-        }
-      }
+      stopPlayer();
+      GameWorld? parentWorld = parent as GameWorld?;
+      parentWorld?.endGameMessage.text = "You Lose (press Space)";
     }
   }
 

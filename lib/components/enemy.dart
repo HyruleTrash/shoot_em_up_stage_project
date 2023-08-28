@@ -1,16 +1,20 @@
 import 'dart:async';
 import 'dart:math';
 
+import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
 import 'package:flame/effects.dart';
 import 'package:flame/geometry.dart';
 import 'package:flame/rendering.dart';
 import 'package:flame_audio/flame_audio.dart';
 import 'package:flutter/material.dart';
+import 'package:shoot_em_up_stage_project/components/bullet.dart';
+import 'package:shoot_em_up_stage_project/components/player.dart';
 import 'package:shoot_em_up_stage_project/components/world.dart';
 import 'package:shoot_em_up_stage_project/shoot_em_up_stage_project.dart';
 
-class Enemy extends PositionComponent with HasGameRef<ShootEmUpStageProject> {
+class Enemy extends PositionComponent
+    with HasGameRef<ShootEmUpStageProject>, CollisionCallbacks {
   double moveSpeed = 50;
   double damageTaken = 0;
   double maxDamage = 3;
@@ -18,6 +22,8 @@ class Enemy extends PositionComponent with HasGameRef<ShootEmUpStageProject> {
 
   Enemy({position}) : super(position: position);
   final SpriteComponent spriteComponent = SpriteComponent();
+  final RectangleHitbox hitBox = RectangleHitbox(
+      size: Vector2(32, 32), position: Vector2(0, 0), anchor: Anchor.center);
 
   @override
   Future<void> onLoad() async {
@@ -43,6 +49,7 @@ class Enemy extends PositionComponent with HasGameRef<ShootEmUpStageProject> {
           duration: Random().nextDouble() * 2.5 + 1, infinite: true),
     ));
 
+    add(hitBox);
     await super.onLoad();
   }
 
@@ -58,6 +65,21 @@ class Enemy extends PositionComponent with HasGameRef<ShootEmUpStageProject> {
       }
       super.update(dt);
     }
+  }
+
+  @override
+  void onCollision(Set<Vector2> intersectionPoints, PositionComponent other) {
+    if (active) {
+      if (other is Bullet) {
+        hurt(other.damage);
+        other.removeFromParent();
+      } else if (other is Player && other.active) {
+        other.hurt();
+        damageTaken = maxDamage;
+        hurt(0);
+      }
+    }
+    super.onCollision(intersectionPoints, other);
   }
 
   void hurt(double damage) {
@@ -81,6 +103,7 @@ class Enemy extends PositionComponent with HasGameRef<ShootEmUpStageProject> {
       GameWorld? parentWorld = parent as GameWorld?;
       parentWorld?.points++;
       spriteComponent.removeFromParent();
+      hitBox.removeFromParent();
     }
   }
 }

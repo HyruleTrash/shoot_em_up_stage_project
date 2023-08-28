@@ -8,7 +8,7 @@ import 'package:shoot_em_up_stage_project/components/player.dart';
 import 'package:shoot_em_up_stage_project/components/world.dart';
 
 class ShootEmUpStageProject extends FlameGame
-    with HasKeyboardHandlerComponents {
+    with HasKeyboardHandlerComponents, HasCollisionDetection {
   ShootEmUpStageProject({dimensions = const Size(360, 640)});
 
   @override

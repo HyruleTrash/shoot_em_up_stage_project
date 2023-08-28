@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flame/camera.dart';
+import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
 import 'package:flame/effects.dart';
 import 'package:flame/palette.dart';
@@ -69,7 +70,13 @@ class GameWorld extends World {
 
   void restartGame() async {
     // ignore: invalid_use_of_internal_member
-    children.removeWhere((child) => child is Enemy);
+    children.removeWhere((child) {
+      if (child is Enemy) {
+        child.hitBox.removeFromParent();
+        return true;
+      }
+      return false;
+    });
     // ignore: invalid_use_of_internal_member
     children.removeWhere((child) => child is Bullet);
 
