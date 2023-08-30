@@ -1,7 +1,7 @@
 import 'dart:math';
 
 import 'package:flame/components.dart';
-import 'package:shoot_em_up_stage_project/components/enemy.dart';
+import 'package:shoot_em_up_stage_project/game/presentation/widgets/enemy_widget.dart';
 
 class EnemySpawner extends Component {
   double timeSpentWaiting = 0;
