@@ -1,10 +1,7 @@
 import 'dart:async';
-import 'dart:math';
 
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
-import 'package:shoot_em_up_stage_project/components/enemy.dart';
-import 'package:shoot_em_up_stage_project/components/world.dart';
 import 'package:shoot_em_up_stage_project/shoot_em_up_stage_project.dart';
 
 class Bullet extends PositionComponent with HasGameRef<ShootEmUpStageProject> {

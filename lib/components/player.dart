@@ -1,12 +1,10 @@
 import 'dart:async';
-import 'dart:math';
 
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
 import 'package:flame/effects.dart';
 import 'package:flame_audio/flame_audio.dart';
 import 'package:shoot_em_up_stage_project/components/bullet.dart';
-import 'package:shoot_em_up_stage_project/components/enemy.dart';
 import 'package:shoot_em_up_stage_project/components/enemy_spawner.dart';
 import 'package:shoot_em_up_stage_project/components/explosion_particle.dart';
 import 'package:shoot_em_up_stage_project/components/world.dart';
