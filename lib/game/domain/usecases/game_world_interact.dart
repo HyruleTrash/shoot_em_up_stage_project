@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:flame/components.dart';
 import 'package:flame/effects.dart';
 import 'package:flutter/services.dart';
-import 'package:shoot_em_up_stage_project/game/game_world.dart';
+import 'package:shoot_em_up_stage_project/game/presentation/game_world.dart';
 import 'package:shoot_em_up_stage_project/game/presentation/bloc/game_event.dart';
 import 'package:shoot_em_up_stage_project/game/presentation/bloc/game_state.dart';
 import 'package:shoot_em_up_stage_project/game/presentation/enemy_spawner.dart';

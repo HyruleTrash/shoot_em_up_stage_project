@@ -6,7 +6,7 @@ import 'package:flame/rendering.dart';
 import 'package:flame_audio/flame_audio.dart';
 import 'package:shoot_em_up_stage_project/game/presentation/bloc/game_event.dart';
 import 'package:shoot_em_up_stage_project/game/presentation/widgets/enemy_widget.dart';
-import 'package:shoot_em_up_stage_project/game/game_world.dart';
+import 'package:shoot_em_up_stage_project/game/presentation/game_world.dart';
 
 class EnemyHealthInteractor extends Component {
   void hurt(double damage) {

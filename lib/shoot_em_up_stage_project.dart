@@ -6,7 +6,7 @@ import 'package:flame/events.dart';
 import 'package:flame/game.dart';
 import 'package:shoot_em_up_stage_project/game/presentation/bloc/game_bloc.dart';
 import 'package:shoot_em_up_stage_project/game/presentation/widgets/player_widget.dart';
-import 'package:shoot_em_up_stage_project/game/game_world.dart';
+import 'package:shoot_em_up_stage_project/game/presentation/game_world.dart';
 
 class ShootEmUpStageProject extends FlameGame
     with HasKeyboardHandlerComponents, HasCollisionDetection {

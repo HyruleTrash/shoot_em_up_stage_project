@@ -6,7 +6,7 @@ import 'package:flame_audio/flame_audio.dart';
 import 'package:shoot_em_up_stage_project/game/presentation/bloc/game_event.dart';
 import 'package:shoot_em_up_stage_project/game/presentation/explosion_particle.dart';
 import 'package:shoot_em_up_stage_project/game/presentation/widgets/player_widget.dart';
-import 'package:shoot_em_up_stage_project/game/game_world.dart';
+import 'package:shoot_em_up_stage_project/game/presentation/game_world.dart';
 import 'package:shoot_em_up_stage_project/shoot_em_up_stage_project.dart';
 
 class PlayerHealthInteractor extends Component
