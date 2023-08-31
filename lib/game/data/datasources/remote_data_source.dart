@@ -7,8 +7,8 @@ class DataRepository {
   DataRepository(this.remoteDataSource);
 
   Future<GameState> fetchData(GameState state) async {
-    final httpResult = await remoteDataSource.fetchDataFromUrl();
-    final newState = state.copyWith(httpResult: httpResult);
+    final chuckNorrisJoke = await remoteDataSource.fetchDataFromUrl();
+    final newState = state.copyWith(httpResult: chuckNorrisJoke?.value);
     return newState;
   }
 }

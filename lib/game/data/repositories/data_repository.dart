@@ -1,25 +1,22 @@
-import 'dart:async';
 import 'dart:convert';
-import 'dart:html';
+import 'package:http/http.dart' as http;
+import 'package:shoot_em_up_stage_project/game/data/models/chuck_data.dart';
 
 class RemoteDataSource {
-  Future<String?> fetchDataFromUrl() async {
-    final completer = Completer<String?>();
+  Future<ChuckNorrisJoke?> fetchDataFromUrl() async {
+    final url = Uri.parse('https://api.chucknorris.io/jokes/random');
+    final response = await http.get(url);
 
-    final request = HttpRequest();
-    request.open('GET', 'https://api.chucknorris.io/jokes/random');
-
-    request.onLoad.listen((event) {
-      if (request.status == 200) {
-        final response = json.decode(request.responseText ?? '')['value'];
-        completer.complete(response);
-      } else {
-        completer.complete(null);
-      }
-    });
-
-    request.send();
-
-    return completer.future;
+    if (response.statusCode == 200) {
+      final responseData = json.decode(response.body);
+      final chuckNorrisJoke = ChuckNorrisJoke(
+        id: responseData['id'],
+        value: responseData['value'],
+        iconUrl: responseData['icon_url'],
+      );
+      return chuckNorrisJoke;
+    } else {
+      return null;
+    }
   }
 }
