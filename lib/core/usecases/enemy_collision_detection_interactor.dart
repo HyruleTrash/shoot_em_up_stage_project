@@ -19,8 +19,9 @@ class EnemyCollisionDetectorInteractor extends PositionComponent
   void onCollision(Set<Vector2> intersectionPoints, PositionComponent other) {
     Enemy parentAsEnemy = parent as Enemy;
     if (parentAsEnemy.active) {
-      if (other is Bullet) {
+      if (other is Bullet && other.active) {
         parentAsEnemy.healthInteractor.hurt(other.damage);
+        other.entity.hitBox.collisionType = CollisionType.inactive;
         other.removeFromParent();
       } else if (other is Player && other.active) {
         other.healthInteractor.hurt();

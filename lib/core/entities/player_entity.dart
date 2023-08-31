@@ -9,6 +9,4 @@ class PlayerEntity extends Component {
 
   final RectangleHitbox hitBox = RectangleHitbox(
       size: Vector2(32, 32), position: Vector2(0, 0), anchor: Anchor.center);
-
-  int health = 3;
 }

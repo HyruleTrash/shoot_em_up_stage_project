@@ -5,7 +5,6 @@ import 'package:shoot_em_up_stage_project/core/entities/player_entity.dart';
 import 'package:shoot_em_up_stage_project/core/usecases/player_health_interactor.dart';
 import 'package:shoot_em_up_stage_project/core/usecases/player_movement_interactor.dart';
 import 'package:shoot_em_up_stage_project/core/usecases/player_shoot_interactor.dart';
-import 'package:shoot_em_up_stage_project/game/game_world.dart';
 import 'package:shoot_em_up_stage_project/shoot_em_up_stage_project.dart';
 
 enum PlayerState { idle, moving }
@@ -28,12 +27,6 @@ class Player extends SpriteAnimationGroupComponent
   @override
   FutureOr<void> onLoad() {
     _loadAllAnimations();
-
-    //update health UI
-    game
-        .firstChild<GameWorld>()
-        ?.interact
-        .setHealthUI(entity.health.toString());
 
     //adds entity
     add(entity);

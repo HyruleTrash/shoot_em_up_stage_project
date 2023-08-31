@@ -1,16 +1,13 @@
 import 'dart:async';
 
-import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
 import 'package:shoot_em_up_stage_project/game/presentation/widgets/bullet_widget.dart';
 
 class BulletInteractor extends Component {
   @override
   FutureOr<void> onLoad() {
-    parent?.add(RectangleHitbox(
-        size: Vector2(7, 32),
-        position: Vector2(16, 16),
-        anchor: Anchor.center));
+    Bullet parentAsBullet = parent as Bullet;
+    parentAsBullet.add(parentAsBullet.entity.hitBox);
     return super.onLoad();
   }
 
